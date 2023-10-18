@@ -30,6 +30,15 @@ class ProductService:
             return True
         except:
             return False
+    
+    def decrease_stock(self, id: str, count: int):
+        product = self.get_by(id)
         
+        if product:
+            if (product.quantity - count) > 0:
+                product.quantity -= count
+                return product.save()
+
+        return False
         
 product_service = ProductService()
