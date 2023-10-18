@@ -1,14 +1,14 @@
-from redis_om import HashModel
+from sqlalchemy import Column, String, Float, Integer
 
-from database import redis
+from .database import Base
 
-class Order(HashModel):
-    product_id: str
-    quantity: int
-    price: float
-    total: float
-    fee: float
-    status: str
+class Order(Base):
+    __tablename__ = "order"
     
-    class Meta:
-        database = redis
+    id = Column(Integer, primary_key=True, index=True)
+    product_id = Column(String, index=True)
+    quantity = Column(Integer)
+    price = Column(Float)
+    total = Column(Float)
+    fee = Column(Float)
+    status = Column(String)

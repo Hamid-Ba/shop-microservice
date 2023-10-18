@@ -1,7 +1,19 @@
-from redis_om import get_redis_connection
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 
-redis = get_redis_connection(host="redis-15654.c300.eu-central-1-1.ec2.cloud.redislabs.com",
-                             port=15654,
-                             password="dg4yUMnZvta4giaJatovD5DWlkcRnX5Y",
-                             decode_responses=True)
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:09155490422HamidBa@localhost/payment"
+
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+
+def get_context():
+    db = SessionLocal()
+    try:
+        yield db
+    finally :
+        db.close()
